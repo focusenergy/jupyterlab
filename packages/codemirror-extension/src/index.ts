@@ -43,6 +43,8 @@ namespace CommandIDs {
   export const find = 'codemirror:find';
 
   export const goToLine = 'codemirror:go-to-line';
+
+  export const insertText = 'codemirror:insert-text';
 }
 
 /**
@@ -304,6 +306,20 @@ function activateEditorCommands(
       }
       let editor = widget.content.editor as CodeMirrorEditor;
       editor.execCommand('jumpToLine');
+    },
+    isEnabled
+  });
+
+  commands.addCommand(CommandIDs.insertText, {
+    label: 'Insert Text',
+    execute: args => {
+      let widget = tracker.currentWidget;
+      if (!widget) {
+        return;
+      }
+      const text: string = (args['text'] as string) || '';
+      let editor = widget.content.editor as CodeMirrorEditor;
+      editor.doc.replaceSelection(text);
     },
     isEnabled
   });
